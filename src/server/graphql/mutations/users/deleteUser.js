@@ -1,8 +1,13 @@
 const { GraphQLID } = require('graphql');
+const { deleteUser } = require('../../../controllers/users');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info)
-  return Promise.resolve({"username": 'meow'})
+  return Promise((resolve, reject) => {
+    deleteUser((err, success) => {
+      err ? reject(err) : resolve(success);
+    });
+  });
 }
 
 module.exports = {

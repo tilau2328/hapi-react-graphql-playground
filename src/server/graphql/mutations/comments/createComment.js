@@ -1,9 +1,14 @@
 const { GraphQLID, GraphQLString } = require('graphql');
 const { CommentType } = require('../../types');
+const { createComment } = require('../../../controllers/comments');
 
 const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise.resolve({"username": 'meow'})
+  console.log(source, args, context, info);
+  return Promise((resolve, reject) => {
+    createComment((err, comment) => {
+      err ? reject(err) : resolve(comment);
+    });
+  });
 }
 
 module.exports = {

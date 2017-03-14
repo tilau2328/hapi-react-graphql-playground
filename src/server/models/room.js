@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const renameIdPlugin = require('mongoose-rename-id');
+const Schema = mongoose.Schema;
 
-const roomSchema = new mongoose.Schema({
+const roomSchema = new Schema({
   name: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   members: [{ type: Schema.Types.ObjectId, ref: 'User' }],

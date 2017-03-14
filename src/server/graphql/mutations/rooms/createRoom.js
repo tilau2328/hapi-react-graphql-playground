@@ -1,9 +1,14 @@
 const { GraphQLString } = require('graphql');
 const { RoomType } = require('../../types');
+const { createRoom } = require('../../../controllers/rooms');
 
 const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise.resolve({"username": 'meow'})
+  console.log(source, args, context, info);
+  return Promise((resolve, reject) => {
+    createRoom((err, room) => {
+      err ? reject(err) : resolve(room);
+    });
+  });
 }
 
 module.exports = {

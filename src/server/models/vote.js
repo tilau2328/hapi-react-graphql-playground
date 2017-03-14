@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const renameIdPlugin = require('mongoose-rename-id');
+const Schema = mongoose.Schema;
 
-const voteSchema = new mongoose.Schema({
+const voteSchema = new Schema({
   author: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   value: { type: Int, required: true }
 });

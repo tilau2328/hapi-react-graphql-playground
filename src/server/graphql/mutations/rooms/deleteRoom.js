@@ -1,13 +1,18 @@
-const { GraphQLID } = require('graphql');
+const { GraphQLID, GraphQLBoolean } = require('graphql');
+const { deleteRoom } = require('../../../controllers/rooms');
 
 const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise.resolve({"username": 'meow'})
+  console.log(source, args, context, info);
+  return Promise((resolve, reject) => {
+    deleteRoom((err, comment) => {
+      err ? reject(err) : resolve(comment);
+    });
+  });
 }
 
 module.exports = {
   name: 'DeleteRoom',
-  type: GraphQLID,
+  type: GraphQLBoolean,
   args: {
     id: { type: GraphQLID }
   },

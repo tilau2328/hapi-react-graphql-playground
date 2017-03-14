@@ -1,9 +1,14 @@
 const { GraphQLID } = require('graphql');
 const { UserType } = require('../../types');
+const { findUser } = require('../../../controllers/posts');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info)
-  return Promise.resolve({"username": 'meow'})
+  return Promise((resolve, reject) => {
+    findUser((err, user) => {
+      err ? reject(err) : resolve(user);
+    });
+  });
 }
 
 module.exports = {
