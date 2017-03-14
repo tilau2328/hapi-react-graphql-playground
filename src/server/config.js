@@ -5,6 +5,6 @@ module.exports = {
     port: process.env.PORT || 8000
   },
   database: {
-    host: 'mongodb://localhost:auth/auth'
+    host: 'mongodb://localhost:hrgp/hrgp'
   }
 };

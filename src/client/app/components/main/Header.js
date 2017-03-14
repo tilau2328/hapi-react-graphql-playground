@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import * as actions from '../../actions';
 
 class Header extends Component {
@@ -11,13 +11,13 @@ class Header extends Component {
   }
 
   signIn(){
-    if(this.props.authenticated){
+    if(!this.props.authenticated){
       return <Link className="btn btn-link" to="/signin" > SignIn </Link>;
     }
     return (
-      <button className="btn btn-link" onClick={() => this.props.signOut()}>
+      <a className="btn btn-link" onClick={() => this.props.signOut()}>
         SignOut
-      </button>
+      </a>
     );
   }
 
@@ -41,6 +41,7 @@ class Header extends Component {
 
 function mapStateToProps(state){
   //return { authenticated: state.auth.isAuthenticated };
+  return {};
 }
 
 export default connect(mapStateToProps, actions)(Header);

@@ -1,5 +1,4 @@
 const { GraphQLID } = require('graphql');
-const UserType = require('../types/user');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info)
@@ -7,9 +6,10 @@ const resolve = function(source, args, context, info){
 }
 
 module.exports = {
-  type: UserType,
+  name: 'DeleteRoom',
+  type: GraphQLID,
   args: {
     id: { type: GraphQLID }
   },
   resolve
-};
+}

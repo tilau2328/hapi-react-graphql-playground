@@ -1,7 +1,7 @@
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 const networkInterface = createNetworkInterface({
-  //uri: 'http://localhost:8000/graphql' ,
+  uri: 'http://localhost:8000/graphql' ,
   dataIdFromObject: o => o.id
 });
 

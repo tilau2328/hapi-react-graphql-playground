@@ -6,7 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 import { createStore, applyMiddleware } from 'redux';
 
 import reducers from './reducers';
-
+import AppRouter from './components/main/AppRouter';
 import client from './graphql';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
@@ -14,7 +14,7 @@ const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
   <ApolloProvider store={store} client={client}>
-    <button className="btn">Test</button>
+    <AppRouter />
   </ApolloProvider>
   , document.getElementById('app')
 );
