@@ -1,10 +1,9 @@
-const { GraphQLID } = require('graphql');
+const { GraphQLList } = require('graphql');
 const { CommentType } = require('../../types');
-const { listComments } = require('../../../controllers/comment');
+const { listComments } = require('../../../controllers/comments');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+const resolve = function(){
+  return new Promise((resolve, reject) => {
     listComments((err, comment) => {
       err ? reject(err) : resolve(comment);
     });

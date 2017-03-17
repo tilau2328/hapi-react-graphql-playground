@@ -4,7 +4,7 @@ const { createFile } = require('../../../controllers/files');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     createFile((err, comment) => {
       err ? reject(err) : resolve(comment);
     });

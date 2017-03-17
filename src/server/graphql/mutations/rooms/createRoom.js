@@ -4,7 +4,7 @@ const { createRoom } = require('../../../controllers/rooms');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     createRoom((err, room) => {
       err ? reject(err) : resolve(room);
     });

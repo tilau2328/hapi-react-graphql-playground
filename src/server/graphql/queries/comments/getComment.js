@@ -1,11 +1,10 @@
 const { GraphQLID } = require('graphql');
 const { CommentType } = require('../../types');
-const { findComment } = require('../../../controllers/comment');
+const { findComment } = require('../../../controllers/comments');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
-    findComment((err, comment) => {
+const resolve = function(source, { id }){ 
+  return new Promise((resolve, reject) => {
+    findComment(id, (err, comment) => {
       err ? reject(err) : resolve(comment);
     });
   });
@@ -13,7 +12,7 @@ const resolve = function(source, args, context, info){
 
 module.exports = {
   name: 'GetPosts',
-  type: new GraphQLList(CommentType),
+  type: CommentType,
   args: {
     id: { type: GraphQLID }
   },

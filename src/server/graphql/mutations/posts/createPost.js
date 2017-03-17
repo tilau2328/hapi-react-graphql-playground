@@ -4,7 +4,7 @@ const { createPost } = require('../../../controllers/posts');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     createPost((err, comment) => {
       err ? reject(err) : resolve(comment);
     });

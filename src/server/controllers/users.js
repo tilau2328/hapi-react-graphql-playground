@@ -1,9 +1,27 @@
+const jwt = require('jwt-simple');
 const User = require('../models/user');
+const config = require('../config');
+
+function tokenForUser(user) {
+  const timestamp = new Date().getTime();
+  return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+}
 
 const findUser = function(id, callback){
-    User.findById(id, (err, user) => {
-      err ? callback(err) : callback(null, user);
-    });
+  User.findById(id, (err, user) => {
+    err ? callback(err) : callback(null, user);
+  });
+}
+
+const findUserByUsername = function(username, callback){
+  User.findOne({ username }, (err, user) => {
+    err ? callback(err) : callback(null, user);
+  });
+}
+
+const findUserFromToken = function(token, callback){
+  const decoded = jwt.decode(token, config.secret);
+  findUser(decoded.sub, callback);
 }
 
 const listUsers = function(callback){
@@ -31,7 +49,32 @@ const editUser = function(id, callback){
 
 const deleteUser = function(id, callback){
   User.findByIdAndRemove(id, (err, user) => {
-    err ? callback(err) : callback(null, user);
+    if(err) { return callback(err); }
+    console.log(user);
+    callback(null, true);
+  });
+}
+
+const signUp = function(username, email, password, callback){
+  findUserByUsername(username, (err, user) => {
+    if(err){ return callback(err); }
+    if(user){ return callback('Existing User'); }
+    createUser(username, email, password, (err, user) => {
+      if (err) { return callback(err); }
+      return callback(null, tokenForUser(user));
+    });
+  });
+}
+
+const signIn = function(username, password, callback){
+  findUserByUsername(username, (err, user) => {
+    if(err){ return callback(err); }
+    if(!user){ return callback('Unexisting User'); }
+    user.comparePassword(password, (err, isMatch) => {
+      if (err) { return callback(err); }
+      if (!isMatch) { return callback('Invalid credentials.'); }
+      return callback(null, tokenForUser(user));
+    });
   });
 }
 
@@ -40,5 +83,8 @@ module.exports = {
   listUsers,
   createUser,
   editUser,
-  deleteUser
+  deleteUser,
+  findUserFromToken,
+  signUp,
+  signIn
 };

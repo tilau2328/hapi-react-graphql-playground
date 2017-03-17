@@ -1,11 +1,10 @@
-const { GraphQLID, GraphQLString } = require('graphql');
+const { GraphQLString, GraphQLID } = require('graphql');
 const { PostType } = require('../../types');
 const { editPost } = require('../../../controllers/posts');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
-    editPost((err, comment) => {
+const resolve = function(source, { id, text }){
+  return new Promise((resolve, reject) => {
+    editPost(id, { text }, (err, comment) => {
       err ? reject(err) : resolve(comment);
     });
   });

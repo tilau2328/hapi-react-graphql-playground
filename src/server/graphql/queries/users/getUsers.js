@@ -4,8 +4,8 @@ const { listUsers } = require('../../../controllers/users');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info)
-  return Promise((resolve, reject) => {
-    createUser((err, users) => {
+  return new Promise((resolve, reject) => {
+    listUsers((err, users) => {
       err ? reject(err) : resolve(users);
     });
   });

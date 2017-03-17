@@ -42,6 +42,3 @@ module.exports = {
   editComment,
   deleteComment
 };
-module.exports = {
-
-};

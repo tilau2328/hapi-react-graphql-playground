@@ -4,7 +4,7 @@ const { findPost } = require('../../../controllers/posts');
 
 const resolve = function(source, args, context, info){
   console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     findPost((err, post) => {
       err ? reject(err) : resolve(post);
     });

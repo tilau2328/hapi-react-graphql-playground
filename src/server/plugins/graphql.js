@@ -3,13 +3,15 @@ const schema = require('../graphql/schema');
 
 module.exports = {
   register: graphqlHapi,
+  graphiql: true,
   options: {
     path: '/graphql',
     graphqlOptions: {
       schema
     },
     route: {
-      cors: true
+      cors: true,
+      auth: false
     }
   }
 }

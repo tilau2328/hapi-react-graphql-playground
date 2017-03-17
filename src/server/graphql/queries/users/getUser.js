@@ -2,10 +2,9 @@ const { GraphQLID } = require('graphql');
 const { UserType } = require('../../types');
 const { findUser } = require('../../../controllers/posts');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise((resolve, reject) => {
-    findUser((err, user) => {
+const resolve = function(source, { id }){
+  return new Promise((resolve, reject) => {
+    findUser(id, (err, user) => {
       err ? reject(err) : resolve(user);
     });
   });

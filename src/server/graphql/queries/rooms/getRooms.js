@@ -1,10 +1,9 @@
 const { GraphQLList } = require('graphql');
 const { RoomType } = require('../../types');
-const { listRooms } = require('../../../controllers/posts');
+const { listRooms } = require('../../../controllers/rooms');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
+const resolve = function(){
+  return new Promise((resolve, reject) => {
     listRooms((err, rooms) => {
       err ? reject(err) : resolve(rooms);
     });

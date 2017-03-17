@@ -1,22 +1,20 @@
 const { GraphQLString } = require('graphql');
-const { UserType } = require('../../types');
 const { signIn } = require('../../../controllers/users');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise((resolve, reject) => {
-    signIn((err, comment) => {
-      err ? reject(err) : resolve(comment);
+const resolve = function(source, { username, password }){
+  console.log(source, context, info)
+  return new Promise((resolve, reject) => {
+    signIn(username, password, (err, token) => {
+      err ? reject(err) : resolve(token);
     });
   });
 }
 
 module.exports = {
   name: 'SignUp',
-  type: UserType,
+  type: GraphQLString,
   args: {
     username: { type: GraphQLString },
-    email: { type: GraphQLString },
     password: { type: GraphQLString }
   },
   resolve

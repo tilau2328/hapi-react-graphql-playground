@@ -1,10 +1,9 @@
-const { GraphQLID } = require('graphql');
+const { GraphQLID, GraphQLBoolean } = require('graphql');
 const { deleteFile } = require('../../../controllers/files');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return Promise((resolve, reject) => {
-    deleteFile((err, comment) => {
+const resolve = function(source, { id }){
+  return new Promise((resolve, reject) => {
+    deleteFile(id, (err, comment) => {
       err ? reject(err) : resolve(comment);
     });
   });
@@ -12,7 +11,7 @@ const resolve = function(source, args, context, info){
 
 module.exports = {
   name: 'DeleteFile',
-  type: GraphQLID,
+  type: GraphQLBoolean,
   args: {
     id: { type: GraphQLID }
   },

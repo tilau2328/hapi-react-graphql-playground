@@ -2,10 +2,10 @@ const { GraphQLID } = require('graphql');
 const { UserType } = require('../../types');
 const { editUser } = require('../../../controllers/users');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise((resolve, reject) => {
-    editUser((err, comment) => {
+const resolve = function(source, { id }, context, info){
+  console.log(source, context, info)
+  return new Promise((resolve, reject) => {
+    editUser(id, (err, comment) => {
       err ? reject(err) : resolve(comment);
     });
   });

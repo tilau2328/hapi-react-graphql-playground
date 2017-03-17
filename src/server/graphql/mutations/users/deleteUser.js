@@ -1,10 +1,9 @@
-const { GraphQLID } = require('graphql');
+const { GraphQLID, GraphQLBoolean } = require('graphql');
 const { deleteUser } = require('../../../controllers/users');
 
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info)
-  return Promise((resolve, reject) => {
-    deleteUser((err, success) => {
+const resolve = function(source, { id }){
+  return new Promise((resolve, reject) => {
+    deleteUser(id, (err, success) => {
       err ? reject(err) : resolve(success);
     });
   });
@@ -12,7 +11,7 @@ const resolve = function(source, args, context, info){
 
 module.exports = {
   name: 'DeleteUser',
-  type: GraphQLID,
+  type: GraphQLBoolean,
   args: {
     id: { type: GraphQLID }
   },
