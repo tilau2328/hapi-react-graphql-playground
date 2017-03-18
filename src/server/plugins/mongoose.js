@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const config = require('../config');
 
 const options = {
-  mongodbUrl: config.database.host
+  mongodbUrl: config.database.host,
+  bluebird: true
 };
 
 module.exports = {

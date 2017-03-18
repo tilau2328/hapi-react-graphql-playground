@@ -78,7 +78,7 @@ const deleteUser = function(id, callback){
 }
 
 const signUp = function(username, email, password, callback){
-  validateData({ username, password }, true, (err) => {
+  validateData({ username, email, password }, true, (err) => {
     if(err) return callback(err);
     findUserByUsername(username, (err, user) => {
       if(err){ return callback(err); }
@@ -107,8 +107,8 @@ const signIn = function(username, password, callback){
 }
 
 const listUsersById = function(user_ids, callback){
-  var user_list = [];
-  user_ids.map(({id}) => {
+  var users = [];
+  user_ids.map(id => {
     User.findById(id , (err, user) => {
       if(err) { callback(err); }
       users.push(user);

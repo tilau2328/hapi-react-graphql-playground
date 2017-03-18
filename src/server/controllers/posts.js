@@ -12,8 +12,8 @@ const listPosts = function(callback){
   });
 }
 
-const createPost = function(text, callback){
-  const new_post = new Post({ text });
+const createPost = function({ text, author, room }, callback){
+  const new_post = new Post({ text, author, room });
   new_post.save((err, post) => {
     err ? callback(err) : callback(null, post);
   });

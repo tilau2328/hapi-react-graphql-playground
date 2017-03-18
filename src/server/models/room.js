@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const roomSchema = new Schema({
   name: { type: String, required: true, unique: true },
-  description: { type: String, required: true },
+  description: { type: String },
   members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   admins: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   moderators: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  created_at: { type: Schema.Types.Date }
+  created_at: { type: Schema.Types.Date, default: Date.now }
 });
 
 roomSchema.plugin(renameIdPlugin({ newIdName: 'id' }));

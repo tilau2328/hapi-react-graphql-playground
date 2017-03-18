@@ -3,7 +3,7 @@ const { UserType } = require('../../types');
 const { GetUsers } = require('./resolvers');
 
 module.exports = {
-  name: 'GetRooms',
+  name: 'GetUsers',
   type: new GraphQLList(UserType),
   resolve: GetUsers
 };

@@ -1,3 +1,4 @@
+const { findUser } = require('./users');
 const Room = require('../models/room');
 
 const findRoom = function(id, callback){
@@ -12,10 +13,14 @@ const listRooms = function(callback){
   });
 }
 
-const createRoom = function(name, callback){
+const createRoom = function({ name, creator }, callback){
   const new_room = new Room({ name });
-  new_room.save((err, room) => {
-    err ? callback(err) : callback(null, room);
+  findUser(creator, (err, user) => {
+    if(err) { return callback(err); }
+    new_room.admins.push(user.id);
+    new_room.save((err, room) => {
+      err ? callback(err) : callback(null, room);
+    });
   });
 }
 

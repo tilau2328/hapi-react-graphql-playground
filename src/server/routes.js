@@ -9,7 +9,7 @@ const signInHandler = function(req, res){
 }
 
 const signUpHandler = function(req, res){
-  const data = req.payload;
+  const data = JSON.parse(req.payload);
   signUp(data.username, data.email, data.password, (err, token) => {
     if(err) return res({ error: err });
     res({ token: token });

@@ -3,7 +3,7 @@ const { FileType } = require('../../types');
 const { GetFiles } = require('./resolvers');
 
 module.exports = {
-  name: 'GetPosts',
+  name: 'GetFiles',
   type: new GraphQLList(FileType),
   resolve: GetFiles
 };
