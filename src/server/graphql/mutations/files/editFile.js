@@ -1,14 +1,6 @@
 const { GraphQLString, GraphQLID } = require('graphql');
 const { FileType } = require('../../types');
-const { editFile } = require('../../../controllers/files');
-
-const resolve = function(source, { id, title }){
-  return new Promise((resolve, reject) => {
-    editFile(id, { title }, (err, comment) => {
-      err ? reject(err) : resolve(comment);
-    });
-  });
-}
+const { EditFile } = require('./resolvers');
 
 module.exports = {
   name: 'EditFile',
@@ -17,5 +9,5 @@ module.exports = {
     id: { type: GraphQLID },
     title: { type: GraphQLString }
   },
-  resolve
+  resolve: EditFile
 }

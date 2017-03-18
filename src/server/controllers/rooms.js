@@ -35,10 +35,22 @@ const deleteRoom = function(id, callback){
   });
 }
 
+const listRoomsById = function(room_ids, callback){
+  var room_list = [];
+  room_ids.map(({id}) => {
+    Room.findById(id , (err, room) => {
+      if(err) { callback(err); }
+      rooms.push(room);
+      if(rooms.length === room_ids.length) { callback(null, rooms); }
+    });
+  });
+}
+
 module.exports = {
   findRoom,
   listRooms,
   createRoom,
   editRoom,
-  deleteRoom
+  deleteRoom,
+  listRoomsById
 };

@@ -1,20 +1,10 @@
 const { GraphQLString } = require('graphql');
 const { UserType } = require('../../types');
-const { findUserFromToken } = require('../../../controllers/users');
-
-const resolve = function(source, { token }){
-  return new Promise((resolve, reject) => {
-    findUserFromToken(token, (err, user) => {
-      err ? reject(err) : resolve(user);
-    });
-  });
-}
+const { GetUserFromToken } = require('./resolvers');
 
 module.exports = {
-  name: 'GetUser',
+  name: 'GetUserFromToken',
   type: UserType,
-  args: {
-    token: { type: GraphQLString }
-  },
-  resolve
+  args: { token: { type: GraphQLString } },
+  resolve: GetUserFromToken
 };

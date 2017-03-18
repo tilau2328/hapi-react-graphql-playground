@@ -1,15 +1,6 @@
 const { GraphQLID, GraphQLString } = require('graphql');
 const { CommentType } = require('../../types');
-const { createComment } = require('../../../controllers/comments');
-
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return new Promise((resolve, reject) => {
-    createComment((err, comment) => {
-      err ? reject(err) : resolve(comment);
-    });
-  });
-}
+const { CreateComment } = require('./resolvers');
 
 module.exports = {
   name: 'CreateComment',
@@ -20,5 +11,5 @@ module.exports = {
     post: { type: GraphQLID },
     file: { type: GraphQLID }
   },
-  resolve
+  resolve: CreateComment
 }

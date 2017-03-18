@@ -1,15 +1,6 @@
 const { GraphQLID, GraphQLString } = require('graphql');
 const { PostType } = require('../../types');
-const { createPost } = require('../../../controllers/posts');
-
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return new Promise((resolve, reject) => {
-    createPost((err, comment) => {
-      err ? reject(err) : resolve(comment);
-    });
-  });
-}
+const { CreatePost } = require('./resolvers');
 
 module.exports = {
   name: 'CreatePost',
@@ -19,5 +10,5 @@ module.exports = {
     author: { type: GraphQLID },
     room: { type: GraphQLID }
   },
-  resolve
+  resolve: CreatePost
 }

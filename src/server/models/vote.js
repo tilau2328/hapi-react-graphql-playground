@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const voteSchema = new Schema({
   author: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  value: { type: Int, required: true }
+  value: { type: Schema.Types.Number, required: true }
 });
 
 voteSchema.plugin(renameIdPlugin({ newIdName: 'id' }));

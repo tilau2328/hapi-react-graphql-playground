@@ -1,17 +1,9 @@
 const { GraphQLList } = require('graphql');
 const { CommentType } = require('../../types');
-const { listComments } = require('../../../controllers/comments');
-
-const resolve = function(){
-  return new Promise((resolve, reject) => {
-    listComments((err, comment) => {
-      err ? reject(err) : resolve(comment);
-    });
-  });
-}
+const { GetComments } = require('./resolvers');
 
 module.exports = {
-  name: 'GetPosts',
+  name: 'GetComments',
   type: new GraphQLList(CommentType),
-  resolve
+  resolve: GetComments
 };

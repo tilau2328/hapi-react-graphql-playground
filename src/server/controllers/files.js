@@ -35,13 +35,22 @@ const deleteFile = function(id, callback){
   });
 }
 
+const listFilesById = function(file_ids, callback){
+  var file_list = [];
+  file_ids.map(({id}) => {
+    File.findById(id , (err, file) => {
+      if(err) { callback(err); }
+      files.push(file);
+      if(files.length === file_ids.length) { callback(null, files); }
+    });
+  });
+}
+
 module.exports = {
   findFile,
   listFiles,
   createFile,
   editFile,
-  deleteFile
-};
-module.exports = {
-
+  deleteFile,
+  listFilesById
 };

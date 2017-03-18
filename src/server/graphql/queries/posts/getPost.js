@@ -1,21 +1,10 @@
 const { GraphQLID } = require('graphql');
 const { PostType } = require('../../types');
-const { findPost } = require('../../../controllers/posts');
-
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return new Promise((resolve, reject) => {
-    findPost((err, post) => {
-      err ? reject(err) : resolve(post);
-    });
-  });
-}
+const { GetPost } = require('./resolvers');
 
 module.exports = {
   name: 'GetPost',
   type: PostType,
-  args: {
-    id: { type: GraphQLID }
-  },
-  resolve
+  args: { id: { type: GraphQLID } },
+  resolve: GetPost
 };

@@ -17,7 +17,7 @@ server.ext('onPreResponse', corsHeaders);
 server.register(require('./plugins'), (err) => {
     if (err) { throw err; }
     hapi_jwt.register(server);
-    //server.route(require('./routes'));
+    server.route(require('./routes'));
     server.start((err) => {
         if (err) { throw err; }
         console.log(`Server running at: ${server.info.uri}`);

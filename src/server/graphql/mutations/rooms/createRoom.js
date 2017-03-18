@@ -1,15 +1,6 @@
 const { GraphQLString } = require('graphql');
 const { RoomType } = require('../../types');
-const { createRoom } = require('../../../controllers/rooms');
-
-const resolve = function(source, args, context, info){
-  console.log(source, args, context, info);
-  return new Promise((resolve, reject) => {
-    createRoom((err, room) => {
-      err ? reject(err) : resolve(room);
-    });
-  });
-}
+const { CreateRoom } = require('./resolvers');
 
 module.exports = {
   name: 'CreateRoom',
@@ -17,5 +8,5 @@ module.exports = {
   args: {
     name: { type: GraphQLString }
   },
-  resolve
+  resolve: CreateRoom
 }

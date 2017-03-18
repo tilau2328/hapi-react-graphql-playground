@@ -1,14 +1,6 @@
 const { GraphQLString, GraphQLID } = require('graphql');
 const { PostType } = require('../../types');
-const { editPost } = require('../../../controllers/posts');
-
-const resolve = function(source, { id, text }){
-  return new Promise((resolve, reject) => {
-    editPost(id, { text }, (err, comment) => {
-      err ? reject(err) : resolve(comment);
-    });
-  });
-}
+const { EditPost } = require('./resolvers');
 
 module.exports = {
   name: 'CreatePost',
@@ -17,5 +9,5 @@ module.exports = {
     id: { type: GraphQLID },
     text: { type: GraphQLString }
   },
-  resolve
+  resolve: EditPost
 }

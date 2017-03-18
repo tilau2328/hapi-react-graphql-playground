@@ -35,10 +35,22 @@ const deleteComment = function(id, callback){
   });
 }
 
+const listCommentsById = function(comment_ids, callback){
+  var comment_list = [];
+  comment_ids.map(({id}) => {
+    Comment.findById(id , (err, comment) => {
+      if(err) { callback(err); }
+      comments.push(comment);
+      if(comments.length === comment_ids.length) { callback(null, comments); }
+    });
+  });
+}
+
 module.exports = {
   findComment,
   listComments,
   createComment,
   editComment,
-  deleteComment
+  deleteComment,
+  listCommentsById
 };

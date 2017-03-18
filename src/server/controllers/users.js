@@ -2,9 +2,31 @@ const jwt = require('jwt-simple');
 const User = require('../models/user');
 const config = require('../config');
 
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id, iat: timestamp }, config.secret);
+}
+
+function validateData(data, check_email, callback){
+  const email = data.email;
+  const username = data.username;
+  const password = data.password;
+
+  if(check_email && (!email || !EMAIL_REGEX.exec(email))){
+    return callback('Invalid email' );
+  }
+
+  if(!username || !password.trim()){
+    return callback('Invalid username');
+  }
+
+  if(!password || !password.trim()){
+    return callback('Invalid password');
+  }
+
+  callback(null);
 }
 
 const findUser = function(id, callback){
@@ -56,24 +78,41 @@ const deleteUser = function(id, callback){
 }
 
 const signUp = function(username, email, password, callback){
-  findUserByUsername(username, (err, user) => {
-    if(err){ return callback(err); }
-    if(user){ return callback('Existing User'); }
-    createUser(username, email, password, (err, user) => {
-      if (err) { return callback(err); }
-      return callback(null, tokenForUser(user));
+  validateData({ username, password }, true, (err) => {
+    if(err) return callback(err);
+    findUserByUsername(username, (err, user) => {
+      if(err){ return callback(err); }
+      if(user){ return callback('Existing User'); }
+      createUser(username, email, password, (err, user) => {
+        if (err) { return callback(err); }
+        return callback(null, tokenForUser(user));
+      });
     });
   });
 }
 
 const signIn = function(username, password, callback){
-  findUserByUsername(username, (err, user) => {
-    if(err){ return callback(err); }
-    if(!user){ return callback('Unexisting User'); }
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) { return callback(err); }
-      if (!isMatch) { return callback('Invalid credentials.'); }
-      return callback(null, tokenForUser(user));
+  validateData({ username, password }, false, (err) => {
+    if(err) return callback(err);
+    findUserByUsername(username, (err, user) => {
+      if(err){ return callback(err); }
+      if(!user){ return callback('Unexisting User'); }
+      user.comparePassword(password, (err, isMatch) => {
+        if (err) { return callback(err); }
+        if (!isMatch) { return callback('Invalid credentials.'); }
+        return callback(null, tokenForUser(user));
+      });
+    });
+  });
+}
+
+const listUsersById = function(user_ids, callback){
+  var user_list = [];
+  user_ids.map(({id}) => {
+    User.findById(id , (err, user) => {
+      if(err) { callback(err); }
+      users.push(user);
+      if(users.length === user_ids.length) { callback(null, users); }
     });
   });
 }
@@ -86,5 +125,6 @@ module.exports = {
   deleteUser,
   findUserFromToken,
   signUp,
-  signIn
+  signIn,
+  listUsersById
 };
